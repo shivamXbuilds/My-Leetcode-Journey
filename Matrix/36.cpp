@@ -14,7 +14,8 @@ public:
                         int subrow = 3*(row/3) + (i/3);
                         int subcol = 3*(col/3) + (i%3);
 
-                        if(subrow!=row && subcol!=col && board[subrow][subcol] == c) return false;
+                        //if(subrow!=row && subcol!=col && board[subrow][subcol] == c) return false; // see this
+                        if ((subrow != row || subcol != col) && board[subrow][subcol] == c) return false;
                     }
                 }
             }
