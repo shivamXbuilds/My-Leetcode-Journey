@@ -1,0 +1,49 @@
+class Solution {
+public:
+    bool possible(vector<int>&bloomDay, int day, int m, int k)
+    {
+        int flowercounter = 0;
+        int bouquetcounter = 0;
+        for(int i=0;i<bloomDay.size();i++)
+        {
+            if(bloomDay[i]<=day)
+            {
+                flowercounter++;
+                if(flowercounter == k)
+                {
+                    bouquetcounter++;
+                    flowercounter = 0;
+                }
+            }
+            else
+            {
+                flowercounter = 0;
+            }
+        }
+
+        return bouquetcounter>=m;
+    }
+
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        long long flowers = 1LL*m*k;
+        if(flowers > bloomDay.size()) return -1;
+        int mini = *min_element(bloomDay.begin(),bloomDay.end());
+        int maxi = *max_element(bloomDay.begin(),bloomDay.end());
+        int ans = -1;
+        while(mini<=maxi)
+        {
+            int mid = mini + (maxi - mini)/2;
+            if(possible(bloomDay,mid,m,k))
+            {
+                ans = mid;
+                maxi = mid-1;
+            }
+            else
+            {
+                mini = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+};
