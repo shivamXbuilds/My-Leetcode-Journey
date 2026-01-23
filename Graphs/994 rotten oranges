@@ -1,0 +1,69 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        if(grid.empty()) return 0;
+        int n = grid.size();
+        int m = grid[0].size();
+        int size = grid.size();
+        int total_oranges = 0;
+        int total_time = -1;
+        int count_rotten = 0;
+        int empty_check = 0;
+        queue<pair<int,int>> rotten;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                empty_check = empty_check + grid[i][j];
+            }
+        }
+
+        if(empty_check == 0) return 0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]!=0) total_oranges++;
+                if(grid[i][j]==2) rotten.push({i,j});
+            }
+        }
+
+        int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
+
+        while(!rotten.empty())
+        {
+            int k = rotten.size();
+            count_rotten = k;
+
+            while(k--)
+            {
+                int x = rotten.front().first;
+                int y = rotten.front().second;
+                rotten.pop();
+                for(int i=0;i<4;i++)
+                {
+                    int xnew = x + dx[i];
+                    int ynew = y + dy[i];
+
+                    if(xnew<0 || ynew<0 || xnew>=n || ynew >=m || grid[xnew][ynew]!=1) continue;
+
+                    grid[xnew][ynew] = 2;
+
+                    rotten.push({xnew,ynew});
+                }
+            }
+            total_time++;
+        }
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]==1) return -1;
+            }
+        }
+
+        return total_time;
+    }
+};
