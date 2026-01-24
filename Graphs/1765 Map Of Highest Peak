@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {
+        queue<pair<int,int>> q;
+        int n = isWater.size();
+        int m = isWater[0].size();
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(isWater[i][j] == 1)
+                {
+                    q.push({i,j});
+                    isWater[i][j] = 0; // pushing whatever is known is the funda
+                }
+                else isWater[i][j] = -1;
+            }
+        }
+
+        int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
+        while(!q.empty())
+        {
+            int k = q.size();
+            while(k--)
+            {
+                int x = q.front().first;
+                int y = q.front().second;
+                q.pop();
+                for(int i=0;i<4;i++)
+                {
+                    int xnew = x + dx[i];
+                    int ynew = y + dy[i];
+                    if(xnew<0 || ynew <0 || xnew>=n || ynew >=m) continue;
+                    if(isWater[xnew][ynew] != -1) continue;
+
+                    isWater[xnew][ynew] = isWater[x][y] + 1;
+                    q.push({xnew,ynew});
+                }
+            }
+        }
+        return isWater;
+    }
+};
