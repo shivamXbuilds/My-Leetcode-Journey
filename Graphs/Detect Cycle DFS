@@ -1,0 +1,33 @@
+// cycle detection using DFS 
+#include<iostream>
+#include<vector>
+using namespace std;
+
+bool dfs(int node,int parentnode, vector<int>& adj[], vector<int>& visited)
+{
+    visited[node] = 1;
+    for(auto it: adj[node])
+    {
+        if(!visited[it])
+        {
+            if(dfs(it, node, adj, visited)) return true;
+        }
+        else if(it!=parentnode) return true;
+    }
+    return false;
+}
+
+bool isCycle(int vertices, vector<int>adj[])
+{
+    vector<int>visited(vertices,0);
+    
+    for(int i=0;i<vertices;i++)
+    {
+        if(!visited[i])
+        {
+            if(dfs(i,-1,adj,visited)) return true;
+        }
+    }
+    return false;
+}
+
