@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int n = image.size();
+        int m = image[0].size();
+
+        queue<pair<int,int>> colored_part;
+
+        int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
+
+        if(image[sr][sc] == color) return image;
+        int original = image[sr][sc];
+        image[sr][sc] = color;
+        colored_part.push({sr,sc});
+
+        while(!colored_part.empty())
+        {
+            int k = colored_part.size();
+            int count_colored  = k;
+            while(k--)
+            {
+                int x = colored_part.front().first;
+                int y = colored_part.front().second;
+
+                colored_part.pop();
+
+                for(int i=0;i<4;i++)
+                {
+                    int xnew = x + dx[i];
+                    int ynew = y + dy[i];
+
+                    if(xnew<0 || ynew<0 || xnew >=n || ynew >=m) continue;
+                    if(image[xnew][ynew] != original) continue;
+
+                    image[xnew][ynew] = color;
+
+                    colored_part.push({xnew,ynew});
+                }
+            }
+        }
+
+        return image;
+    }
+};
