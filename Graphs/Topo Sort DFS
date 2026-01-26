@@ -1,0 +1,36 @@
+
+void dfs(int node, vector<int>& visited, stack<int>& ans, vector<int> adj[])
+{
+    visited[node] = 1;
+    
+    for(auto it : adj[node])
+    {
+        if(!visited[it])
+        {
+            dfs(it, visited, ans, adj);
+        }
+    }
+    ans.push(node);
+}
+
+vector<int> toposort(int vertices, vector<int> adj[])
+{
+    stack<int>ans;
+    vector<int> visited(vertices, 0);
+    for(int i=0;i<vertices;i++)
+    {
+        if(!visited[i])
+        {
+            dfs(i, visited,ans,adj);
+        }
+    }
+    
+    vector<int> result;
+    for(int i=0;i<vertices;i++)
+    {
+        result.push_back(ans.top());
+        ans.pop();
+    }
+    
+    return result;
+}
