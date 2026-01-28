@@ -1,0 +1,43 @@
+//Problem Statement: Given an Undirected Graph having unit weight, find the shortest path from the source to all other nodes in this graph. In this problem statement, we have assumed the source vertex to be ‘0’. If a vertex is unreachable from the source node, then return -1 for that vertex.
+
+vector<int>shortestpath(int vertices, int src_node, vector<vector<int>> &graph)
+{
+    vector<vector<int>>adj(vertices);
+
+    for(auto &it : graph)
+    {
+        adj[it[0]].push_back(it[1]);
+        adj[it[1]].push_back(it[0]);
+    }
+    
+    
+    vector<int>dist;
+    for(int i=0;i<vertices;i++)
+    {
+        dist.push_back(1e9);
+    }
+    queue<int>q;
+    dist[src_node] = 0;
+    q.push(src_node);
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        for(auto it : adj[node])
+        {
+            if(dist[node] + 1 < dist[it])
+            {
+                dist[it] = dist[node] + 1;
+                q.push(it);
+            }
+        }
+    }
+    vector<int>ans;
+    for(int i=0;i<vertices;i++)
+    {
+        if(dist[i]==1e9) ans.push_back(-1);
+        else ans.push_back(dist[i]);
+    }
+    
+    return ans;
+}
